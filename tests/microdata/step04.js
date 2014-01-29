@@ -20,11 +20,11 @@
 import Store from 'appkit/microdata/store';
 import Person from 'appkit/tests/helpers/person';
 
-var store;
+var store, container;
 
 step(4, "Pushing to the Store", {
   setup: function() {
-    var container = new Ember.Container();
+    container = new Ember.Container();
     container.register('store:main', Store);
     container.register('model:person', Person);
     store = container.lookup('store:main');
@@ -100,41 +100,41 @@ test("pushing doesn't mangle string ids", function() {
   types using the container.
 */
 
-// test("uses lookupFactory somewhere as part of a push", function() {
-//   var orig = container.lookupFactory,
-//       yipee;
-//
-//   container.lookupFactory = function() {
-//     yipee = 'doodah';
-//     return orig.apply(this, arguments);
-//   };
-//
-//   store.push('person', {
-//     id: 1,
-//     firstName: 'Jamie',
-//     lastName: 'Gilgen'
-//   });
-//
-//   equal(yipee, 'doodah', "lookupFactory gets called");
-// });
+test("uses lookupFactory somewhere as part of a push", function() {
+  var orig = container.lookupFactory,
+      yipee;
+
+  container.lookupFactory = function() {
+    yipee = 'doodah';
+    return orig.apply(this, arguments);
+  };
+
+  store.push('person', {
+    id: 1,
+    firstName: 'Jamie',
+    lastName: 'Gilgen'
+  });
+
+  equal(yipee, 'doodah', "lookupFactory gets called");
+});
 
 
-// test("uses container's returned typeFactory create() for instantiation", function() {
-//   var orig = container.lookupFactory('model:person'),
-//       origCreate = orig.create,
-//       ping;
-//
-//   orig.create = function(opts) {
-//     ping = 'pong';
-//     return origCreate.apply(this, arguments);
-//   };
-//
-//   store.push('person', {
-//     id: 1,
-//     firstName: 'Jamie',
-//     lastName: 'Gilgen'
-//   });
-//
-//   equal(ping, 'pong', "create on the lookupFactory gets called");
-// });
+test("uses container's returned typeFactory create() for instantiation", function() {
+  var orig = container.lookupFactory('model:person'),
+      origCreate = orig.create,
+      ping;
+
+  orig.create = function(opts) {
+    ping = 'pong';
+    return origCreate.apply(this, arguments);
+  };
+
+  store.push('person', {
+    id: 1,
+    firstName: 'Jamie',
+    lastName: 'Gilgen'
+  });
+
+  equal(ping, 'pong', "create on the lookupFactory gets called");
+});
 

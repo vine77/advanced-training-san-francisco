@@ -1,2 +1,5 @@
-export default Em.Object.extend();
+export default Em.Object.extend({
+  init: function () {
 
+  }
+});
