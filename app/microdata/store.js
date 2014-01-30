@@ -4,7 +4,7 @@ export default Em.Object.extend({
   },
   push: function (type, payload) {
     if (!payload['id']) throw new Error('Cannot push a record to the store without an id.');
-    var id = payload['id'].toString(); // Coerce id to string
+    var id = payload['id'] = payload['id'].toString(); // Coerce id to string
     var records = this.identityMap[type] || {};
     var record;
     if (!records[id]) {
@@ -27,5 +27,17 @@ export default Em.Object.extend({
     id = id.toString(); // Coerce id to string
     var records = this.identityMap[type];
     if (records && records[id]) return records[id];
+  },
+  find: function (type, id) {
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      var records = this.identityMap[type] || {};
+      if (!records[id]) {
+        // Record was not found in identity map
+      } else {
+        // Record is already stored in identity map
+        resolve(records[id]);
+      }
+
+    });
   }
 });

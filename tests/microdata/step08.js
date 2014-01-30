@@ -15,7 +15,7 @@ import Person from 'appkit/tests/helpers/person';
 
 var store;
 
-step(7, "Adapter API", {
+step(8, "Adapter API", {
   setup: function() {
     var container = new Ember.Container();
     container.register('store:main', Store);
