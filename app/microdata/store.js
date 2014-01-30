@@ -2,11 +2,6 @@ export default Em.Object.extend({
   init: function () {
     this.set('identityMap', {});
   },
-  getById: function (type, id) {
-    id = id.toString(); // Coerce id to string
-    var records = this.identityMap[type];
-    if (records && records[id]) return records[id];
-  },
   push: function (type, payload) {
     if (!payload['id']) throw new Error('Cannot push a record to the store without an id.');
     var id = payload['id'].toString(); // Coerce id to string
@@ -27,5 +22,10 @@ export default Em.Object.extend({
     }
     this.identityMap[type] = records;
     return record;  // Return record
+  },
+  getById: function (type, id) {
+    id = id.toString(); // Coerce id to string
+    var records = this.identityMap[type];
+    if (records && records[id]) return records[id];
   }
 });
